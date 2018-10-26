@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { onLoadHtmlSucess } from "../core/includes"; //referenciando a funcao
 
 const duration = 300;
 
@@ -11,7 +12,7 @@ function filterByCity(city) {
             $(this).fadeIn(duration);
         } else {
             $(this).fadeOut(duration, () => {
-                $(this).parent().addClass("d-none");
+                $(this).parent().addClass("d-none");//esconde o pai
             });
         }
     });
@@ -42,9 +43,11 @@ $.fn.cityButtons = function () {
     const btnGroup = $("<div>").addClass(["btn-group"]);
     btnGroup.append(btns);
 
-    $(this).cityButtons.html(btnGroup);
+    $(this).html(btnGroup);
     
     return this;
 }
 
-$("[wm-city-buttons]").cityButtons();
+onLoadHtmlSucess(function() {
+    $("[wm-city-buttons]").cityButtons();
+});

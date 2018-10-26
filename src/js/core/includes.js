@@ -1,5 +1,13 @@
 import $ from "jquery"; //importa o jquery do node modules
 
+const loadHtmlSucessCallbacks = [];
+
+export function onLoadHtmlSucess(callback){
+    if(!loadHtmlSucessCallbacks.includes(callback)){
+        loadHtmlSucessCallbacks.push(callback);
+    }
+} 
+
 function loadIncludes(parent) {
     if(!parent) parent = "body";
 
@@ -10,6 +18,8 @@ function loadIncludes(parent) {
             success(data){
                 $(e).html(data);
                 $(e).removeAttr("wm-include");
+
+                loadHtmlSucessCallbacks.forEach(callback => callback(data));
 
                 loadIncludes(e); //processa de forma recussiva caso tenha varios includes
             }
